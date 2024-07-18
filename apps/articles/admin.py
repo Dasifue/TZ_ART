@@ -1,9 +1,12 @@
+"Articles admin"
+
 from django.contrib import admin
 
 from .models import Article
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
+    "Article admin class"
     list_display = ("id", "user", "title", "public", "creation_date")
     list_display_links = ("id", "user", "title")
     search_fields = ("id", "user", "title")

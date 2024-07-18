@@ -1,3 +1,5 @@
+"Accounts admin"
+
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 from django.contrib.auth.models import Group
@@ -10,6 +12,7 @@ admin.site.unregister(Group)
 
 @admin.register(User)
 class UserAdmin(BaseUserAdmin):
+    "User admin class"
     add_form = UserCreationForm
     list_display = ("id", "email", "full_name", "role")
     list_display_links = ("id", "email", "full_name")
@@ -42,6 +45,7 @@ class UserAdmin(BaseUserAdmin):
 
 @admin.register(Subscribe)
 class SubscribeAdmin(admin.ModelAdmin):
+    "Subscribe admin class"
     form = SubscribeCreationForm
     list_display = ("id", "author", "subscriber", "creation_date")
     list_display_links = ("id", "author", "subscriber")
