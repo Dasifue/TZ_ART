@@ -1,8 +1,22 @@
 from rest_framework.generics import CreateAPIView
+from rest_framework.permissions import AllowAny, IsAuthenticated
 
-from .models import User
-from .serializers import UserRegistrationSerializer
+from .models import User, Subscribe
+from .serializers import UserRegistrationSerializer, SubscribeSerializer
+from .permissions import IsSubscriber
 
 class UserCreationAPIView(CreateAPIView):
+
     queryset = User.objects.all()
     serializer_class = UserRegistrationSerializer
+    permission_classes = [AllowAny]
+
+
+class SubscribeToAuthorAPIView(CreateAPIView):
+
+    queryset = Subscribe.objects.all()
+    serializer_class = SubscribeSerializer
+    permission_classes = [IsAuthenticated, IsSubscriber]
+
+    def perform_create(self, serializer):
+        serializer.save(subscriber_id=self.request.user.id)

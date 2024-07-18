@@ -37,7 +37,6 @@ class SubscribeCreationForm(forms.ModelForm):
         fields = "__all__"
 
     def clean_author(self):
-        print(self.cleaned_data)
         author = self.cleaned_data.get("author")
         if author.role != User.AUTHOR:
             self.add_error("author", "The author must have the role AUTHOR")
