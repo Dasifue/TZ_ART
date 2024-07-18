@@ -7,6 +7,7 @@ from .serializers import (
     ArticleCreationSerializer,
     ArticleUpdateSerializer,
 )
+from apps.accounts.permissions import IsSubscriber
 from .permissions import IsAuthor
 
 class PublicArticlesListAPIView(ListAPIView):
@@ -30,3 +31,12 @@ class ArticleUpdateDeleteAPIView(RetrieveUpdateDestroyAPIView):
 
     def get_queryset(self):
         return Article.objects.filter(user_id=self.request.user.id)
+
+class PrivateArticlesAPIView(ListAPIView):
+
+    serializer_class = ArticleSerializer
+    permission_classes = [IsAuthenticated, IsSubscriber]
+
+    def get_queryset(self):
+        subscribes = self.request.user.subscribes.values_list("author__id", flat=True)
+        return Article.objects.filter(user__id__in=subscribes, public=False)
