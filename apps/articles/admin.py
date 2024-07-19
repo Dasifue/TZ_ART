@@ -3,6 +3,7 @@
 from django.contrib import admin
 
 from .models import Article
+from .forms import ArticleCreationForm
 
 @admin.register(Article)
 class ArticleAdmin(admin.ModelAdmin):
@@ -11,3 +12,4 @@ class ArticleAdmin(admin.ModelAdmin):
     list_display_links = ("id", "user", "title")
     search_fields = ("id", "user", "title")
     list_filter = ("public",)
+    form = ArticleCreationForm
